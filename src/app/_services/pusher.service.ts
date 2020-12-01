@@ -38,6 +38,6 @@ export class PusherService {
       }.bind(this)
     );
 
-    this.channel = this.pusher.subscribe(AppConfig.uuid);
+    this.channel = this.pusher.subscribe('officernd');
   }
 }
