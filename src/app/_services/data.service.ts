@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class HttpService {
+export class dataService {
   baseUrl = environment.apiUrl;
 
   httpOptions = {
@@ -22,7 +22,6 @@ export class HttpService {
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
       'Access-Control-Allow-Headers':
         'X-Requested-With, content-type, Authorization',
-      ApiKey: 'b26752fd-beff-42a2-a601-6dee9e611fe9',
       socket_id: '',
     }),
     body: '',
@@ -30,7 +29,7 @@ export class HttpService {
 
   constructor(private http: HttpClient) {}
 
-  public get(url: string, data: string): Observable<any> {
+  private get(url: string, data: string): Observable<any> {
     return this.http.get(this.baseUrl + url, this.httpOptions);
     //.pipe(
     // retry(3), // retry a failed request up to 3 times
@@ -53,8 +52,15 @@ export class HttpService {
     return throwError('Something bad happened; please try again later.');
   }
 
-  public post(url: string, data: string): Observable<any> {
+  private post(url: string, data: string): Observable<any> {
     return this.http.post(this.baseUrl + url, data, this.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(this.handleError) // then handle the error
+    );
+  }
+
+  private delete(url: string): Observable<any> {
+    return this.http.post(this.baseUrl + url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.handleError) // then handle the error
     );
