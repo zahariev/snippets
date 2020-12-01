@@ -3,29 +3,33 @@ import { Router } from '@angular/router';
 import { HttpService } from './http.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import jwt_decode from 'jwt-decode';
 import { environment } from '@environments/environment';
-import { User } from '@app/_models';
+import { User, authUser } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-  private userSubject: BehaviorSubject<User>;
-  public user: Observable<User>;
+  private userSubject: BehaviorSubject<authUser>;
+  public user: Observable<authUser>;
 
   constructor(private router: Router, private http: HttpService) {
-    this.userSubject = new BehaviorSubject<User>(
+    this.userSubject = new BehaviorSubject<authUser>(
       JSON.parse(localStorage.getItem('user'))
     );
     this.user = this.userSubject.asObservable();
   }
 
-  public get userValue(): User {
+  public get userValue(): authUser {
     return this.userSubject.value;
   }
 
   login(username, password) {
     return this.http.authenticate(username, password).pipe(
-      map((user: User) => {
+      map((user: authUser) => {
+        var decoded: authUser = jwt_decode(user.access_token);
+        decoded.access_token = user.access_token;
+        decoded.token_type = user.token_type;
+        console.log(user);
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
@@ -57,7 +61,7 @@ export class AccountService {
     return this.http.put(`${environment.apiUrl}/user/${id}`, params).pipe(
       map((x) => {
         // update stored user if the logged in user updated their own record
-        if (id == this.userValue.id) {
+        if (id == this.userValue._id) {
           // update local storage
           const user = { ...this.userValue, ...params };
           localStorage.setItem('user', JSON.stringify(user));
@@ -74,7 +78,7 @@ export class AccountService {
     return this.http.delete(`${environment.apiUrl}/user/${id}`).pipe(
       map((x) => {
         // auto logout if the logged in user deleted their own record
-        if (id == this.userValue.id) {
+        if (id == this.userValue._id) {
           this.logout();
         }
         return x;

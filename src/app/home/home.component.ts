@@ -1,6 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { DataService } from '../_services/data.service';
-import { User } from '@app/_models';
+import { authUser } from '@app/_models';
 import { AccountService } from '@app/_services';
 import { Snippet } from '@app/_models/snippet';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['home.component.css'],
 })
 export class HomeComponent {
-  user: User;
+  user: authUser;
   snippets: any = [];
 
   constructor(
