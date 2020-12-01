@@ -48,8 +48,15 @@ export class HttpService {
     return throwError('Something bad happened; please try again later.');
   }
 
-  public post(url: string, data: string): Observable<any> {
+  public post(url: string, data): Observable<any> {
     return this.http.post(this.baseUrl + url, data, this.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(this.handleError) // then handle the error
+    );
+  }
+
+  public put(url: string, data): Observable<any> {
+    return this.http.put(this.baseUrl + url, data, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.handleError) // then handle the error
     );
@@ -60,5 +67,12 @@ export class HttpService {
       retry(3), // retry a failed request up to 3 times
       catchError(this.handleError) // then handle the error
     );
+  }
+
+  public authenticate(username, password) {
+    return this.http.post(`${environment.apiUrl}/user/authenticate`, {
+      username,
+      password,
+    });
   }
 }
