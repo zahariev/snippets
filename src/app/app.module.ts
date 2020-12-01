@@ -21,7 +21,7 @@ import { HomeComponent } from './home';
   ],
   declarations: [AppComponent, AlertComponent, HomeComponent],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     // // provider used to create fake backend
     // fakeBackendProvider,
