@@ -1,5 +1,5 @@
 ﻿<!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="user">
+<nav class="navbar navbar-expand navbar-dark bg-dark">
   <div class="navbar-nav">
     <a
       class="nav-item nav-link"
@@ -8,10 +8,10 @@
       [routerLinkActiveOptions]="{ exact: true }"
       >Code Snippets</a
     >
-    <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active"
-      >Users</a
-    >
-    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+  </div>
+  <div class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+    <a *ngIf="user" class="nav-item nav-link" (click)="logout()">Logout</a>
+    <a *ngIf="!user" class="nav-item nav-link" (click)="logout()">Login</a>
   </div>
 </nav>
 
@@ -24,13 +24,6 @@
 <!-- credits -->
 <div class="text-center mt-4">
   <p>
-    <a
-      href="https://jasonwatmore.com/post/2020/07/18/angular-10-user-registration-and-login-example-tutorial"
-      target="_top"
-      >Angular 10 - User Registration and Login Example & Tutorial</a
-    >
-  </p>
-  <p>
-    <a href="https://jasonwatmore.com" target="_top">JasonWatmore.com</a>
+    <a href="https://demo.revizia.online" target="_blank">Boyan Zahariev</a>
   </p>
 </div>
