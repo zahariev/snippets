@@ -3,6 +3,7 @@ import { DataService } from '../_services/data.service';
 import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
 import { Snippet } from '@app/_models/snippet';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: 'home.component.html',
@@ -14,7 +15,8 @@ export class HomeComponent {
 
   constructor(
     private accountService: AccountService,
-    private dataService: DataService
+    private dataService: DataService,
+    private activeRoute: ActivatedRoute
   ) {
     this.user = this.accountService.userValue;
     dataService.snippetData.subscribe(
@@ -24,5 +26,13 @@ export class HomeComponent {
         }
       }.bind(this)
     );
+  }
+
+  ngOnInit() {
+    const queryParams = this.activeRoute.snapshot.queryParams;
+    const routeParams = this.activeRoute.snapshot.params;
+
+    // do something with the parameters
+    this.dataService.getSnippetsData();
   }
 }

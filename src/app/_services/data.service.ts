@@ -26,10 +26,10 @@ export class DataService {
 
   constructor(
     private accountService: AccountService,
-    private http: HttpService // pusher: PusherService // private _injector: Injector
+    public http: HttpService // pusher: PusherService // private _injector: Injector
   ) {
     this.getSnippetsData();
-
+    // this.getStatistics();
     // pusher.channel.bind('newSnippet', (data) => {
     //   this.snippets = data;
     //   this.snippetSource.next(data);
@@ -45,11 +45,22 @@ export class DataService {
   /*
       GET Settings
    */
-  private getSnippetsData(): void {
+  public getSnippetsData(): void {
     let path = '';
     if (this.accountService.userValue) path = '/all';
 
     this.http.get(`/snippets${path}`).subscribe((data: Snippet[]) => {
+      if (data) {
+        this.snippetSource.next(data);
+      }
+    });
+  }
+
+  private getStatistics(): void {
+    let path = '';
+    if (this.accountService.userValue) path = '/all';
+
+    this.http.get(`/stats${path}`).subscribe((data: Snippet[]) => {
       if (data) {
         this.snippetSource.next(data);
       }
