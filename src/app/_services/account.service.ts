@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpService } from './http.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -12,7 +12,7 @@ export class AccountService {
   private userSubject: BehaviorSubject<User>;
   public user: Observable<User>;
 
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(private router: Router, private http: HttpService) {
     this.userSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem('user'))
     );
@@ -24,19 +24,14 @@ export class AccountService {
   }
 
   login(username, password) {
-    return this.http
-      .post<User>(`${environment.apiUrl}/user/authenticate`, {
-        username,
-        password,
+    return this.http.authenticate(username, password).pipe(
+      map((user: User) => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userSubject.next(user);
+        return user;
       })
-      .pipe(
-        map((user) => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('user', JSON.stringify(user));
-          this.userSubject.next(user);
-          return user;
-        })
-      );
+    );
   }
 
   logout() {
@@ -51,11 +46,11 @@ export class AccountService {
   }
 
   getAll() {
-    return this.http.get<User[]>(`${environment.apiUrl}/user`);
+    return this.http.get(`${environment.apiUrl}/user`);
   }
 
   getById(id: string) {
-    return this.http.get<User>(`${environment.apiUrl}/user/${id}`);
+    return this.http.get(`${environment.apiUrl}/user/${id}`);
   }
 
   update(id, params) {
