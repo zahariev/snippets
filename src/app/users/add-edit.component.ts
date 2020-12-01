@@ -82,7 +82,7 @@ export class AddEditComponent implements OnInit {
           this.router.navigate(['../'], { relativeTo: this.route });
         },
         error: (error) => {
-          this.alertService.error(error.error);
+          this.alertService.error(error.text);
           this.loading = false;
         },
       });
@@ -100,7 +100,7 @@ export class AddEditComponent implements OnInit {
           this.router.navigate(['../../'], { relativeTo: this.route });
         },
         error: (error) => {
-          this.alertService.error(error.error);
+          this.alertService.error(error.text || error.error);
           this.loading = false;
         },
       });
