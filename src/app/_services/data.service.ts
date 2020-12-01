@@ -1,68 +1,62 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { Injectable, Injector } from '@angular/core';
+import { Snippet } from '../_models/snippet';
+import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
+import { HttpService } from './http.service';
+// import { Router, ActivatedRoute } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
+import { AccountService } from '@app/_services';
 
-import { environment } from '../../environments/environment';
-
+// import { PusherService } from './pusher.service';
 @Injectable({
   providedIn: 'root',
 })
-export class dataService {
-  baseUrl = environment.apiUrl;
+export class DataService {
+  snippets;
+  users;
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers':
-        'X-Requested-With, content-type, Authorization',
-      socket_id: '',
-    }),
-    body: '',
-  };
+  // private get _router() {
+  //   // return this._injector.get(Router);
+  // }
 
-  constructor(private http: HttpClient) {}
+  private snippetSource = new BehaviorSubject([]);
+  snippetData = this.snippetSource.asObservable();
 
-  private get(url: string, data: string): Observable<any> {
-    return this.http.get(this.baseUrl + url, this.httpOptions);
-    //.pipe(
-    // retry(3), // retry a failed request up to 3 times
-    // catchError(this.handleError) // then handle the error
-    //);
+  // private itemSource = new BehaviorSubject([]);
+  // itemData = this.itemSource.asObservable();
+
+  constructor(
+    private accountService: AccountService,
+    private http: HttpService // pusher: PusherService // private _injector: Injector
+  ) {
+    this.getSnippetsData();
+
+    // pusher.channel.bind('newSnippet', (data) => {
+    //   this.snippets = data;
+    //   this.snippetSource.next(data);
+    // });
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
-      console.error(
-        `Backend returned code ${error.status}, ` + `body was: ${error.error}`
-      );
-    }
-    // Return an observable with a user-facing error message.
-    return throwError('Something bad happened; please try again later.');
+  // Loads Data before appComponents
+
+  getLocalStorage(item) {
+    return JSON.parse(localStorage.getItem(item)) || {};
   }
 
-  private post(url: string, data: string): Observable<any> {
-    return this.http.post(this.baseUrl + url, data, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(this.handleError) // then handle the error
-    );
+  /*
+      GET Settings
+   */
+  private getSnippetsData(): void {
+    let path = '';
+    if (this.accountService.userValue) path = '/all';
+
+    this.http.get(`/snippets${path}`).subscribe((data: Snippet[]) => {
+      if (data) {
+        this.snippetSource.next(data);
+      }
+    });
   }
 
-  private delete(url: string): Observable<any> {
-    return this.http.post(this.baseUrl + url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(this.handleError) // then handle the error
-    );
-  }
+  /*
+      PUT QUEUE
+   */
 }
