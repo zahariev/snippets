@@ -1,0 +1,28 @@
+{
+  "files.exclude": {
+    "_config.yml": true,
+    ".DS_Store": true,
+    ".gitignore": true,
+    ".prettierrc.json": true,
+    ".eslintignore123": true,
+    ".eslintrc-123.json": true,
+    "package-lock.json": true,
+    "src/karma.conf.js": true,
+    "src/polyfills.ts": true,
+    "src/typings.d.ts": true,
+    "tsconfig.json": true,
+    "tsconfig.serve.json": true,
+    "tsconfig.base.json": true,
+    "e2e": true,
+    "electron/main.js": true,
+    "electron/main.js.map": true,
+    "dist/.DS_Store": true,
+    "LICENSE.md": true,
+    "CHANGELOG.md": true,
+    "angular.webpack.js": true,
+    "src/test.ts": true,
+    ".vscode": true,
+    "node_modules": true,
+    ".browserslistrc": true
+  }
+}
