@@ -181,7 +181,7 @@
 </div>
 <div class="container-lg px-3 new-discussion-timeline">
   <div class="repository-content gist-content">
-    <div class="gist-snippet" *ngFor="let gist of snippets">
+    <div class="gist-snippet" *ngFor="let gist of snippets; index as id">
       <div class="gist-snippet-meta d-flex flex-lg-row flex-column width-full">
         <div class="d-inline-block col-lg-3 px-0">
           <span>
@@ -262,10 +262,7 @@
             </a>
           </li> -->
           <li class="d-inline-block mr-lg-3 mr-1">
-            <a
-              class="muted-link"
-              href="/dralletje/42d645974c6311280a9e0cee0d9fcdc0/stargazers"
-            >
+            <a class="muted-link" (click)="voteToggle(id)">
               <svg
                 *ngIf="!gist.likes.includes(user._id)"
                 class="octicon octicon-star"
@@ -283,13 +280,12 @@
               <!-- <object id="svgStar"> -->
               <svg
                 *ngIf="gist.likes.includes(user._id)"
-                width="24"
-                height="22"
-                viewBox="0 0 1000 1000"
+                width="16"
+                height="16"
+                viewBox="-10 -10 800 800"
                 id="svg2"
                 version="1.1"
                 inkscape:version="0.48.1 r9760"
-                sodipodi:docname="star.svg"
               >
                 <defs id="defs4">
                   <linearGradient id="linearGradient3773">

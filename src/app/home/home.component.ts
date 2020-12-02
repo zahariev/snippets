@@ -40,4 +40,12 @@ export class HomeComponent {
     return this.snippets.filter((snippet) => snippet.createdBy == this.user._id)
       .length;
   }
+
+  voteToggle(id) {
+    let idx = this.snippets[id].likes.indexOf(this.user._id);
+    console.log(idx);
+
+    if (idx > -1) this.snippets[id].likes.splice(idx, 1);
+    else this.snippets[id].likes.push(this.user._id);
+  }
 }
