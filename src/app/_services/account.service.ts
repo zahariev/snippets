@@ -27,9 +27,8 @@ export class AccountService {
     return this.http.authenticate(username, password).pipe(
       map((user: authUser) => {
         var decoded: authUser = jwt_decode(user.access_token);
-        decoded.access_token = user.access_token;
-        decoded.token_type = user.token_type;
-        console.log(user);
+        user = Object.assign(decoded, user);
+
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
@@ -46,19 +45,19 @@ export class AccountService {
   }
 
   register(user: User) {
-    return this.http.post(`${environment.apiUrl}/user/register`, user);
+    return this.http.post(`/user/register`, user);
   }
 
   getAll() {
-    return this.http.get(`${environment.apiUrl}/user`);
+    return this.http.get(`/user`);
   }
 
   getById(id: string) {
-    return this.http.get(`${environment.apiUrl}/user/${id}`);
+    return this.http.get(`/user/${id}`);
   }
 
   update(id, params) {
-    return this.http.put(`${environment.apiUrl}/user/${id}`, params).pipe(
+    return this.http.put(`/user/${id}`, params).pipe(
       map((x) => {
         // update stored user if the logged in user updated their own record
         if (id == this.userValue._id) {
