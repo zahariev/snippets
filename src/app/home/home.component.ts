@@ -35,4 +35,9 @@ export class HomeComponent {
     // do something with the parameters
     this.dataService.getSnippetsData();
   }
+
+  countMySnippets() {
+    return this.snippets.filter((snippet) => snippet.createdBy == this.user._id)
+      .length;
+  }
 }
