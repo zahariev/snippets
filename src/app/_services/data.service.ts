@@ -67,6 +67,10 @@ export class DataService {
     });
   }
 
+  public vote(gistID) {
+    return this.http.post('/snippets/vote', { snippetID: gistID });
+  }
+
   /*
       PUT QUEUE
    */

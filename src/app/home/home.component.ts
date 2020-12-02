@@ -42,10 +42,18 @@ export class HomeComponent {
   }
 
   voteToggle(id) {
-    let idx = this.snippets[id].likes.indexOf(this.user._id);
-    console.log(idx);
+    this.dataService.vote(this.snippets[id]._id).subscribe((data) => {
+      if (!data.ok) return;
+      let idx = this.snippets[id].likes.indexOf(this.user._id);
+      console.log(idx);
 
-    if (idx > -1) this.snippets[id].likes.splice(idx, 1);
-    else this.snippets[id].likes.push(this.user._id);
+      if (idx > -1) {
+        this.snippets[id].likes.splice(idx, 1);
+        this.snippets[id].countLikes -= 1;
+      } else {
+        this.snippets[id].likes.push(this.user._id);
+        this.snippets[id].countLikes += 1;
+      }
+    });
   }
 }
