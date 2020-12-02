@@ -11,7 +11,6 @@
   padding: 8px 16px;
   font-size: 14px;
   line-height: 30px;
-  color: var(--color-underlinenav-text);
   text-align: center;
   white-space: nowrap;
   background-color: initial;
@@ -22,7 +21,6 @@
 
 .UnderlineNav .Counter {
   margin-left: 4px;
-  color: var(--color-underlinenav-counter-text);
 }
 
 .Counter {
@@ -37,6 +35,10 @@
   background-color: lightgrey;
   border: 1px solid transparent;
   border-radius: 2em;
+}
+
+#svg22 {
+  transform: scale(0.02);
 }
 
 .blob-num {

@@ -2,19 +2,15 @@
   <div class="px-0">
     <div class="d-flex flex-md-row flex-column px-0 pr-md-3 px-lg-5">
       <div class="flex-md-order-1 flex-order-2 flex-auto">
-        <nav
-          class="UnderlineNav box-shadow-none px-3 px-lg-0"
-          aria-label="Gist"
-          data-pjax="#gist-pjax-container"
-        >
-          <div class="UnderlineNav-body">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
             <a
-              class="js-selected-navigation-item selected UnderlineNav-item"
-              data-pjax="true"
-              data-hotkey="g c"
-              aria-current="page"
-              data-selected-links="gist_code /pitch-gist/2999707"
-              href="/"
+              class="nav-link UnderlineNav-item active"
+              data-toggle="tab"
+              href="#profile"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="true"
             >
               <svg
                 class="octicon octicon-code UnderlineNav-octicon"
@@ -30,14 +26,45 @@
                 ></path>
               </svg>
               Snippets
-              <span title="1" class="Counter">21</span>
+              <span title="1" class="Counter">{{ snippets.length }}</span>
             </a>
+          </li>
+          <li class="nav-item">
             <a
-              class="js-selected-navigation-item UnderlineNav-item"
-              data-pjax="true"
-              data-hotkey="g r"
-              data-selected-links="gist_revisions /pitch-gist/2999707/revisions"
-              href="/"
+              *ngIf="user.isAdmin"
+              class="nav-link UnderlineNav-item"
+              data-toggle="tab"
+              href="#profile"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
+            >
+              <svg
+                class="octicon octicon-code UnderlineNav-octicon"
+                viewBox="0 0 16 16"
+                version="1.1"
+                width="16"
+                height="16"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.72 3.22a.75.75 0 011.06 1.06L2.06 8l3.72 3.72a.75.75 0 11-1.06 1.06L.47 8.53a.75.75 0 010-1.06l4.25-4.25zm6.56 0a.75.75 0 10-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 101.06 1.06l4.25-4.25a.75.75 0 000-1.06l-4.25-4.25z"
+                ></path>
+              </svg>
+              My Snippets
+              <span title="1" class="Counter">{{ countMySnippets() }}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              *ngIf="user.isAdmin"
+              class="nav-link UnderlineNav-item"
+              data-toggle="tab"
+              href="#profile"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
             >
               <svg
                 width="1em"
@@ -62,12 +89,16 @@
               Tags
               <span title="2" class="Counter">2</span>
             </a>
+          </li>
+          <li class="nav-item">
             <a
-              class="js-selected-navigation-item UnderlineNav-item"
-              data-pjax="true"
-              data-hotkey="g s"
-              data-selected-links="gist_stars /pitch-gist/2999707/stargazers"
-              href="/"
+              *ngIf="user.isAdmin"
+              class="nav-link UnderlineNav-item"
+              data-toggle="tab"
+              href="#profile"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
             >
               <svg
                 class="octicon octicon-star"
@@ -85,12 +116,16 @@
               Votes
               <span title="1,137" class="Counter">1,137</span>
             </a>
+          </li>
+          <li class="nav-item">
             <a
-              class="js-selected-navigation-item UnderlineNav-item"
-              data-pjax="true"
-              data-hotkey="g f"
-              data-selected-links="gist_forks /pitch-gist/2999707/forks"
-              href="/"
+              *ngIf="user.isAdmin"
+              class="nav-link UnderlineNav-item"
+              data-toggle="tab"
+              href="#profile"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
             >
               <svg
                 width="1.15em"
@@ -108,8 +143,8 @@
               Users
               <span title="483" class="Counter">483</span>
             </a>
-          </div>
-        </nav>
+          </li>
+        </ul>
       </div>
 
       <div
@@ -155,7 +190,7 @@
               data-octo-click="hovercard-link-click"
               data-octo-dimensions="link_type:self"
               href="/"
-              >{{ gist.createdBy }}</a
+              >{{ gist.created }}</a
             >
             /
             <a href="/"
@@ -232,6 +267,7 @@
               href="/dralletje/42d645974c6311280a9e0cee0d9fcdc0/stargazers"
             >
               <svg
+                *ngIf="!gist.likes.includes(user._id)"
                 class="octicon octicon-star"
                 viewBox="0 0 16 16"
                 version="1.1"
@@ -244,6 +280,71 @@
                   d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"
                 ></path>
               </svg>
+              <!-- <object id="svgStar"> -->
+              <svg
+                *ngIf="gist.likes.includes(user._id)"
+                width="24"
+                height="22"
+                viewBox="0 0 1000 1000"
+                id="svg2"
+                version="1.1"
+                inkscape:version="0.48.1 r9760"
+                sodipodi:docname="star.svg"
+              >
+                <defs id="defs4">
+                  <linearGradient id="linearGradient3773">
+                    <stop
+                      style="stop-color: #ffff00; stop-opacity: 1"
+                      offset="0"
+                      id="stop3775"
+                    />
+                    <stop
+                      style="stop-color: #ffff00; stop-opacity: 0"
+                      offset="1"
+                      id="stop3777"
+                    />
+                  </linearGradient>
+                </defs>
+
+                <g
+                  inkscape:label="Layer 1"
+                  inkscape:groupmode="layer"
+                  id="layer1"
+                  transform="translate(264.21875,29.97807)"
+                >
+                  <path
+                    sodipodi:type="star"
+                    style="
+                      fill: #fefe00;
+                      fill-opacity: 1;
+                      fill-rule: nonzero;
+                      stroke: #000000;
+                      stroke-width: 20;
+                      stroke-miterlimit: 4;
+                      stroke-opacity: 1;
+                      stroke-dasharray: none;
+                      stroke-linejoin: round;
+                      stroke-linecap: butt;
+                    "
+                    id="path2987"
+                    sodipodi:sides="5"
+                    sodipodi:cx="100"
+                    sodipodi:cy="280.93362"
+                    sodipodi:r1="377.31598"
+                    sodipodi:r2="188.65799"
+                    sodipodi:arg1="1.5707963"
+                    sodipodi:arg2="2.1991149"
+                    inkscape:flatsided="false"
+                    inkscape:rounded="0"
+                    inkscape:randomized="0"
+                    d="M 100.00001,658.2496 -10.89039,433.56114 -258.84882,397.53068 -79.424408,222.63509 -121.78078,-24.321409 100.00001,92.275635 321.78076,-24.321421 279.42441,222.63511 458.84882,397.53066 210.89038,433.56115 z"
+                    inkscape:transform-center-y="-36.030472"
+                    transform="matrix(1,0,0,-1,0,633.92818)"
+                  />
+                </g>
+              </svg>
+              <!-- </object> -->
+
               {{ gist.countLikes }} stars
             </a>
           </li>
