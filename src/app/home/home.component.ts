@@ -46,7 +46,6 @@ export class HomeComponent {
     this.dataService.vote(this.snippets[id]._id).subscribe((data) => {
       if (!data.ok) return;
       let idx = this.snippets[id].likes.indexOf(this.user._id);
-      console.log(idx);
 
       if (idx > -1) {
         this.snippets[id].likes.splice(idx, 1);

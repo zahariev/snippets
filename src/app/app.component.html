@@ -10,6 +10,24 @@
     >
   </div>
   <div class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+    <!-- <div class="nav-item mr-0"> -->
+    <a class="nav-item nav-link active" (click)="logout()">
+      <svg
+        class="white octicon octicon-plus d-none d-md-inline-block"
+        viewBox="0 0 16 16"
+        version="1.1"
+        width="16"
+        height="16"
+        aria-hidden="true"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M8 2a.75.75 0 01.75.75v4.5h4.5a.75.75 0 010 1.5h-4.5v4.5a.75.75 0 01-1.5 0v-4.5h-4.5a.75.75 0 010-1.5h4.5v-4.5A.75.75 0 018 2z"
+        ></path>
+      </svg>
+    </a>
+    <!-- </div> -->
+
     <span class="nav-item nav-link active">{{ user?.name }}</span>
 
     <a *ngIf="user" class="nav-item nav-link" (click)="logout()">
@@ -17,7 +35,7 @@
         height="24"
         viewBox="0 0 512 512"
         width="24"
-        fill="grey"
+        fill="lightgrey"
         xmlns="http://www.w3.org/2000/svg"
       >
         <g id="Solid">
@@ -32,7 +50,7 @@
     </a>
     <a *ngIf="!user" class="nav-item nav-link" (click)="logout()">
       <svg
-        fill="grey"
+        fill="lightgrey"
         height="24"
         viewBox="0 0 512 512"
         width="24"
