@@ -133,6 +133,6 @@ body {
   margin-bottom: 8px !important;
 }
 
-/* .gist-snippet-meta {
-  justify-content: space-between;
-} */
+.gist-snippet-meta {
+  font-size: 0.9em;
+}
