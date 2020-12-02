@@ -42,6 +42,7 @@ export class HomeComponent {
   }
 
   voteToggle(id) {
+    if (!this.user) return;
     this.dataService.vote(this.snippets[id]._id).subscribe((data) => {
       if (!data.ok) return;
       let idx = this.snippets[id].likes.indexOf(this.user._id);
