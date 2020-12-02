@@ -6,6 +6,7 @@ export class Snippet {
   likes: [];
   countLikes: number;
   createdBy: string;
+  created: string;
   modified: string;
   private: boolean;
   date: string;
