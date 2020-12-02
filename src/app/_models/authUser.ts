@@ -1,6 +1,6 @@
 export class authUser {
   iat: number;
-  is_admin: boolean;
+  isAdmin: boolean;
   name: string;
   _id: string;
   access_token: string;
