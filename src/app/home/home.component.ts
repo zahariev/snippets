@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class HomeComponent {
   user: authUser;
   snippets: any = [];
+  lastActive = 1;
 
   constructor(
     private accountService: AccountService,
@@ -39,6 +40,16 @@ export class HomeComponent {
   countMySnippets() {
     return this.snippets.filter((snippet) => snippet.createdBy == this.user._id)
       .length;
+  }
+
+  filterByUser(tab) {
+    this.dataService.getOwnSnippetsData();
+    this.lastActive = tab;
+  }
+
+  showAll(tab) {
+    this.dataService.getSnippetsData();
+    this.lastActive = tab;
   }
 
   voteToggle(id) {

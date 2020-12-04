@@ -1,6 +1,5 @@
 .pagehead {
   position: relative;
-  border-bottom: 1px solid lightgrey;
 }
 
 .UnderlineNav-body {
@@ -15,7 +14,7 @@
   white-space: nowrap;
   background-color: initial;
   border: 0;
-  border-bottom: 2px solid transparent;
+  /* border-bottom: 2px solid transparent; */
   transition: border-bottom-color 0.36s ease-in;
 }
 
@@ -74,6 +73,30 @@ table {
 
 .file {
   min-height: 200px;
+}
+.reponav-item.selected {
+  border-top-color: #f9826c;
+}
+
+.reponav-item.selected {
+  color: var(--color-text-primary);
+  background-color: white;
+  border-left-color: rgb(225, 228, 232);
+  border-bottom-color: transparent;
+  border-right-color: rgb(225, 228, 232);
+  border-top-color: #f9826c;
+
+  /* border-top-color: var(--color-auto-orange-6); */
+}
+
+.reponav-item {
+  float: left;
+  padding: 7px 15px 8px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  border: 1px solid transparent;
+  border-top: 3px solid transparent;
+  border-radius: 6px 6px 0 0;
 }
 
 .tab-size[data-tab-size="8"] {
