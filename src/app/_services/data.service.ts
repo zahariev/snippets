@@ -58,6 +58,10 @@ export class DataService {
     );
   }
 
+  public getStats() {
+    return this.http.get('/snippets/stats');
+  }
+
   public getOwnSnippetsData(): void {
     let path = '';
     // if (this.accountService.userValue) path = '/my';

@@ -3,6 +3,7 @@ import { DataService } from '../_services/data.service';
 import { authUser } from '@app/_models';
 import { AccountService } from '@app/_services';
 import { Snippet } from '@app/_models/snippet';
+import { Stat } from '@app/_models/stat';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -14,6 +15,9 @@ export class HomeComponent {
   snippets: any = [];
   lastActive = 1;
   allCount;
+  stats;
+  countLikes;
+
   constructor(
     private accountService: AccountService,
     private dataService: DataService,
@@ -24,7 +28,6 @@ export class HomeComponent {
     dataService.snippetData.subscribe(
       function (data) {
         this.snippets = data;
-
         this.allCount = this.snippets.length;
       }.bind(this)
     );
@@ -36,6 +39,21 @@ export class HomeComponent {
 
     // do something with the parameters
     this.dataService.getSnippetsData();
+    if (this.user.isAdmin)
+      this.dataService.getStats().subscribe(
+        (stats: Stat) => {
+          this.stats = stats;
+          this.calculateStats(stats);
+        },
+        (err) => console.log(err)
+      );
+  }
+
+  calculateStats(stats) {
+    this.countLikes = 0;
+    stats.forEach((tag) => {
+      this.countLikes += tag.likes;
+    });
   }
 
   countMySnippets() {

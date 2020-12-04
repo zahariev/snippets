@@ -91,7 +91,7 @@
                 />
               </svg>
               Tags
-              <span title="2" class="Counter">2</span>
+              <span title="2" class="Counter">{{ stats?.length }}</span>
             </a>
           </li>
           <li class="nav-item">
@@ -118,7 +118,7 @@
                 ></path>
               </svg>
               Votes
-              <span title="1,137" class="Counter">1,137</span>
+              <span title="7" class="Counter">{{ countLikes }}</span>
             </a>
           </li>
         </ul>
@@ -157,7 +157,7 @@
   </div>
 </div>
 <div class="container-lg px-3 new-discussion-timeline">
-  <div class="repository-content gist-content">
+  <div *ngIf="lastActive < 3" class="repository-content gist-content">
     <div class="gist-snippet" *ngFor="let gist of snippets; index as id">
       <div class="gist-snippet-meta d-flex flex-lg-row flex-column width-full">
         <div class="d-inline-block col-lg-3 px-0">
@@ -327,4 +327,6 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="lastActive > 2" class="repository-content gist-content"></div>
 </div>
