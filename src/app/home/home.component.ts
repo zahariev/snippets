@@ -13,7 +13,7 @@ export class HomeComponent {
   user: authUser;
   snippets: any = [];
   lastActive = 1;
-
+  allCount;
   constructor(
     private accountService: AccountService,
     private dataService: DataService,
@@ -24,6 +24,8 @@ export class HomeComponent {
       function (data) {
         if (data.length) {
           this.snippets = data;
+
+          this.allCount = this.snippets.length;
         }
       }.bind(this)
     );
@@ -66,5 +68,11 @@ export class HomeComponent {
         this.snippets[id].countLikes += 1;
       }
     });
+  }
+
+  deleteSnippet(id) {
+    console.log('delete');
+
+    this.dataService.deleteSnippet(this.snippets[id]._id);
   }
 }

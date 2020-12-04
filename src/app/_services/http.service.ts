@@ -41,7 +41,8 @@ export class HttpService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
       console.error(
-        `Backend returned code ${error.status}, ` + `body was: ${error.error}`
+        `Backend returned code ${error.status}, ` +
+          `body was: ${error.error.message}`
       );
     }
     // Return an observable with a user-facing error message.
@@ -63,8 +64,8 @@ export class HttpService {
   }
 
   public delete(url: string): Observable<any> {
-    return this.http.post(this.baseUrl + url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+    return this.http.delete(this.baseUrl + url, this.httpOptions).pipe(
+      // retry(3), // retry a failed request up to 3 times
       catchError(this.handleError) // then handle the error
     );
   }

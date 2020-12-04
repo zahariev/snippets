@@ -82,4 +82,10 @@ export class DataService {
   public vote(gistID) {
     return this.http.post('/snippets/vote', { snippetID: gistID });
   }
+
+  public deleteSnippet(_id) {
+    this.http.delete('/snippets/' + _id).subscribe((res) => {
+      console.log(res);
+    });
+  }
 }
