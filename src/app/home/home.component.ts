@@ -3,7 +3,7 @@ import { DataService } from '../_services/data.service';
 import { authUser } from '@app/_models';
 import { AccountService } from '@app/_services';
 import { Snippet } from '@app/_models/snippet';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   templateUrl: 'home.component.html',
@@ -17,16 +17,15 @@ export class HomeComponent {
   constructor(
     private accountService: AccountService,
     private dataService: DataService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private router: Router
   ) {
     this.user = this.accountService.userValue;
     dataService.snippetData.subscribe(
       function (data) {
-        if (data.length) {
-          this.snippets = data;
+        this.snippets = data;
 
-          this.allCount = this.snippets.length;
-        }
+        this.allCount = this.snippets.length;
       }.bind(this)
     );
   }
@@ -45,7 +44,9 @@ export class HomeComponent {
   }
 
   filterByUser(tab) {
-    this.dataService.getOwnSnippetsData();
+    this.snippets = this.snippets.filter(
+      (snippet) => snippet.createdBy == this.user._id
+    );
     this.lastActive = tab;
   }
 
@@ -70,9 +71,10 @@ export class HomeComponent {
     });
   }
 
-  deleteSnippet(id) {
-    console.log('delete');
-
+  async deleteSnippet(id) {
     this.dataService.deleteSnippet(this.snippets[id]._id);
+
+    // this.snippets.splice(id, 1);
+    // this.allCount = this.snippets.length;
   }
 }

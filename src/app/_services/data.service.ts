@@ -50,11 +50,12 @@ export class DataService {
     let path = '';
     if (this.accountService.userValue) path = '/all';
 
-    this.http.get(`/snippets${path}`).subscribe((data: Snippet[]) => {
-      if (data) {
+    this.http.get(`/snippets${path}`).subscribe(
+      (data: Snippet[]) => {
         this.snippetSource.next(data);
-      }
-    });
+      },
+      (err) => {}
+    );
   }
 
   public getOwnSnippetsData(): void {
@@ -84,8 +85,13 @@ export class DataService {
   }
 
   public deleteSnippet(_id) {
-    this.http.delete('/snippets/' + _id).subscribe((res) => {
-      console.log(res);
-    });
+    this.http.delete('/snippets/' + _id).subscribe(
+      (res) => {
+        console.log('done');
+
+        this.getSnippetsData();
+      },
+      (err) => {}
+    );
   }
 }
