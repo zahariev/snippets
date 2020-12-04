@@ -5,6 +5,7 @@ import { HttpService } from './http.service';
 // import { Router, ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import { AccountService } from '@app/_services';
+import { FormGroup } from '@angular/forms';
 
 // import { PusherService } from './pusher.service';
 @Injectable({
@@ -13,10 +14,6 @@ import { AccountService } from '@app/_services';
 export class DataService {
   snippets;
   users;
-
-  // private get _router() {
-  //   // return this._injector.get(Router);
-  // }
 
   private snippetSource = new BehaviorSubject([]);
   snippetData = this.snippetSource.asObservable();
@@ -28,7 +25,8 @@ export class DataService {
     private accountService: AccountService,
     public http: HttpService // pusher: PusherService // private _injector: Injector
   ) {
-    this.getSnippetsData();
+    // this.getSnippetsData();
+    // this.getOwnSnippetsData();
     // this.getStatistics();
     // pusher.channel.bind('newSnippet', (data) => {
     //   this.snippets = data;
@@ -37,6 +35,9 @@ export class DataService {
   }
 
   // Loads Data before appComponents
+  reload(data) {
+    this.snippetSource.next(data);
+  }
 
   getLocalStorage(item) {
     return JSON.parse(localStorage.getItem(item)) || {};
@@ -50,6 +51,17 @@ export class DataService {
     if (this.accountService.userValue) path = '/all';
 
     this.http.get(`/snippets${path}`).subscribe((data: Snippet[]) => {
+      if (data) {
+        this.snippetSource.next(data);
+      }
+    });
+  }
+
+  public getOwnSnippetsData(): void {
+    let path = '';
+    // if (this.accountService.userValue) path = '/my';
+
+    this.http.get(`/snippets/my`).subscribe((data: Snippet[]) => {
       if (data) {
         this.snippetSource.next(data);
       }
@@ -70,8 +82,4 @@ export class DataService {
   public vote(gistID) {
     return this.http.post('/snippets/vote', { snippetID: gistID });
   }
-
-  /*
-      PUT QUEUE
-   */
 }
