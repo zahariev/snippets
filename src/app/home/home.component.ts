@@ -39,7 +39,7 @@ export class HomeComponent {
 
     // do something with the parameters
     this.dataService.getSnippetsData();
-    if (this.user.isAdmin)
+    if (this.user?.isAdmin)
       this.dataService.getStats().subscribe(
         (stats: Stat) => {
           this.stats = stats;
