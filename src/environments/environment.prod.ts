@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:3030/api',
+  apiUrl: '/api2',
   PUSHER: {
     APP_ID: '869250',
     APP_KEY: '45c22c5576553782fef0',
