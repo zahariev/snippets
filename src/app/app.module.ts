@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TagCloudModule } from 'angular-tag-cloud-module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    TagCloudModule,
   ],
   declarations: [AppComponent, AlertComponent, HomeComponent],
 

@@ -22,6 +22,10 @@
   margin-left: 4px;
 }
 
+.tags {
+  color: grey;
+}
+
 .Counter {
   display: inline-block;
   min-width: 20px;
@@ -59,7 +63,6 @@
   overflow: visible;
   font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
   font-size: 12px;
-  color: var(--color-text-primary);
   word-wrap: normal;
   white-space: pre;
 }
@@ -92,7 +95,6 @@ table {
 .reponav-item {
   float: left;
   padding: 7px 15px 8px;
-  color: var(--color-text-secondary);
   white-space: nowrap;
   border: 1px solid transparent;
   border-top: 3px solid transparent;
@@ -120,8 +122,6 @@ body {
     sans-serif, Apple Color Emoji, Segoe UI Emoji;
   font-size: 14px;
   line-height: 1.5;
-  color: var(--color-text-primary);
-  background-color: var(--color-bg-canvas);
 }
 
 .file {
@@ -153,5 +153,5 @@ body {
 }
 
 .gist-snippet-meta {
-  font-size: 0.9em;
+  font-size: 0.8em;
 }

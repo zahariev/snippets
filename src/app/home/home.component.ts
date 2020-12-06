@@ -5,6 +5,7 @@ import { AccountService } from '@app/_services';
 import { Snippet } from '@app/_models/snippet';
 import { Stat } from '@app/_models/stat';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
 
 @Component({
   templateUrl: 'home.component.html',
@@ -17,6 +18,16 @@ export class HomeComponent {
   allCount;
   stats;
   countLikes;
+  chart;
+  series;
+
+  options: CloudOptions = {
+    // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
+    width: 1000,
+    // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
+    height: 400,
+    overflow: false,
+  };
 
   constructor(
     private accountService: AccountService,
@@ -39,21 +50,21 @@ export class HomeComponent {
 
     // do something with the parameters
     this.dataService.getSnippetsData();
-    if (this.user?.isAdmin)
-      this.dataService.getStats().subscribe(
-        (stats: Stat) => {
-          this.stats = stats;
-          this.calculateStats(stats);
-        },
-        (err) => console.log(err)
-      );
+    // get added info for likes and stars/votes
+    if (this.user?.isAdmin) this.calculateStats();
   }
 
-  calculateStats(stats) {
-    this.countLikes = 0;
-    stats.forEach((tag) => {
-      this.countLikes += tag.likes;
-    });
+  calculateStats() {
+    this.dataService.getStats().subscribe(
+      (stats: Stat) => {
+        this.stats = stats;
+        this.countLikes = 0;
+        this.stats.forEach((tag) => {
+          this.countLikes += tag.likes;
+        });
+      },
+      (err) => console.log(err)
+    );
   }
 
   countMySnippets() {
@@ -73,6 +84,24 @@ export class HomeComponent {
     this.lastActive = tab;
   }
 
+  showTagsCloud() {
+    this.lastActive = 3;
+    let newSeries = [];
+    this.stats.forEach((x) => {
+      newSeries.push({ text: x.tag, weight: x.count });
+    });
+    this.series = newSeries;
+  }
+
+  showVotesCloud() {
+    this.lastActive = 4;
+    let newSeries = [];
+    this.stats.forEach((x) => {
+      newSeries.push({ text: x.tag, weight: x.likes });
+    });
+    this.series = newSeries;
+  }
+
   voteToggle(id) {
     if (!this.user) return;
     this.dataService.vote(this.snippets[id]._id).subscribe((data) => {
@@ -82,9 +111,11 @@ export class HomeComponent {
       if (idx > -1) {
         this.snippets[id].likes.splice(idx, 1);
         this.snippets[id].countLikes -= 1;
+        this.countLikes -= 1;
       } else {
         this.snippets[id].likes.push(this.user._id);
         this.snippets[id].countLikes += 1;
+        this.countLikes += 1;
       }
     });
   }

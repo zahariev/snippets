@@ -63,9 +63,11 @@
           <li class="nav-item">
             <a
               *ngIf="user?.isAdmin"
-              class="nav-link UnderlineNav-item"
+              class="nav-link reponav-item UnderlineNav-item"
               data-toggle="tab"
-              href="#profile"
+              [class.selected]="lastActive == 3"
+              (click)="showTagsCloud(3)"
+              href="#"
               role="tab"
               aria-controls="profile"
               aria-selected="false"
@@ -97,9 +99,11 @@
           <li class="nav-item">
             <a
               *ngIf="user?.isAdmin"
-              class="nav-link UnderlineNav-item"
+              class="nav-link reponav-item UnderlineNav-item"
               data-toggle="tab"
-              href="#profile"
+              href="#"
+              [class.selected]="lastActive == 4"
+              (click)="showVotesCloud(4)"
               role="tab"
               aria-controls="profile"
               aria-selected="false"
@@ -166,16 +170,22 @@
               data-hovercard-type="user"
               data-octo-click="hovercard-link-click"
               data-octo-dimensions="link_type:self"
-              href="/"
+              href="#"
               >{{ gist.created }}</a
             >
             /
-            <a href="/"
+            <a href="#"
               ><strong class="css-truncate-target">
                 {{ gist.title }}
               </strong></a
             >
+            <a *ngIf="gist.private" href="#"
+              ><strong class="css-truncate-target"> private </strong></a
+            >
           </span>
+        </div>
+        <div class="text-gray">
+          tags: # <span class="tags">{{ gist.tags }}</span>
         </div>
 
         <ul
@@ -267,8 +277,8 @@
           <li *ngIf="user?.isAdmin" class="d-inline-block mr-lg-3 mr-1">
             <a class="muted-link" (click)="deleteSnippet(id)">
               <svg
-                width="1em"
-                height="1em"
+                width="1.2em"
+                height="1.2em"
                 viewBox="0 0 16 16"
                 class="bi bi-trash"
                 fill="currentColor"
@@ -328,5 +338,13 @@
     </div>
   </div>
 
-  <div *ngIf="lastActive > 2" class="repository-content gist-content"></div>
+  <div *ngIf="lastActive > 2" class="repository-content gist-content">
+    <angular-tag-cloud
+      [data]="series"
+      [width]="options.width"
+      [height]="options.height"
+      [overflow]="options.overflow"
+    >
+    </angular-tag-cloud>
+  </div>
 </div>
