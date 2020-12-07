@@ -15,6 +15,7 @@ export class HomeComponent {
   user: authUser;
   snippets: any = [];
   tabActive = 1;
+  filter: CloudData;
   allCount;
   stats;
   countLikes;
@@ -79,9 +80,10 @@ export class HomeComponent {
     this.tabActive = tab;
   }
 
-  showAll(tab) {
+  showAll() {
     this.dataService.getSnippetsData();
-    this.tabActive = tab;
+    delete this.filter;
+    this.tabActive = 1;
   }
 
   showTagsCloud() {
@@ -96,7 +98,7 @@ export class HomeComponent {
   showVotesCloud() {
     this.tabActive = 4;
     let newSeries = [];
-    this.stats.forEach((x) => {
+    this.stats?.forEach((x) => {
       newSeries.push({ text: x.tag, weight: x.likes });
     });
     this.series = newSeries;
@@ -127,11 +129,11 @@ export class HomeComponent {
     // this.allCount = this.snippets.length;
   }
 
-  showClickedTag(clicked: CloudData) {
+  showClickedTag(item: CloudData) {
     this.snippets = this.snippets.filter((snippet) =>
-      snippet.tags.includes(clicked.text)
+      snippet.tags.includes(item.text)
     );
-
+    this.filter = item;
     this.tabActive = 1;
   }
 }
