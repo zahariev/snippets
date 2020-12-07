@@ -9,5 +9,10 @@
     "types": []
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
-  "include": ["src/**/*.d.ts"]
+  "include": ["src/**/*.d.ts"],
+  "paths": {
+    "@abp/*": ["../node_modules/abp-ng2-module/src/*"],
+    "@app/*": ["./app/*"],
+    "@shared/*": ["./app/shared/*"]
+  }
 }
