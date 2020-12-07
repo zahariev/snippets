@@ -14,7 +14,7 @@ import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
 export class HomeComponent {
   user: authUser;
   snippets: any = [];
-  lastActive = 1;
+  tabActive = 1;
   allCount;
   stats;
   countLikes;
@@ -76,16 +76,16 @@ export class HomeComponent {
     this.snippets = this.snippets.filter(
       (snippet) => snippet.createdBy == this.user._id
     );
-    this.lastActive = tab;
+    this.tabActive = tab;
   }
 
   showAll(tab) {
     this.dataService.getSnippetsData();
-    this.lastActive = tab;
+    this.tabActive = tab;
   }
 
   showTagsCloud() {
-    this.lastActive = 3;
+    this.tabActive = 3;
     let newSeries = [];
     this.stats.forEach((x) => {
       newSeries.push({ text: x.tag, weight: x.count });
@@ -94,7 +94,7 @@ export class HomeComponent {
   }
 
   showVotesCloud() {
-    this.lastActive = 4;
+    this.tabActive = 4;
     let newSeries = [];
     this.stats.forEach((x) => {
       newSeries.push({ text: x.tag, weight: x.likes });
@@ -132,6 +132,6 @@ export class HomeComponent {
       snippet.tags.includes(clicked.text)
     );
 
-    this.lastActive = 1;
+    this.tabActive = 1;
   }
 }

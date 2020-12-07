@@ -6,7 +6,7 @@
           <li class="nav-item">
             <a
               class="nav-link reponav-item UnderlineNav-item"
-              [class.selected]="lastActive == 1"
+              [class.selected]="tabActive == 1"
               data-toggle="tab"
               (click)="showAll(1)"
               href="#"
@@ -35,7 +35,7 @@
             <a
               *ngIf="user"
               class="nav-link reponav-item UnderlineNav-item"
-              [class.selected]="lastActive == 2"
+              [class.selected]="tabActive == 2"
               data-toggle="tab"
               href="#"
               (click)="filterByUser(2)"
@@ -65,7 +65,7 @@
               *ngIf="user?.isAdmin"
               class="nav-link reponav-item UnderlineNav-item"
               data-toggle="tab"
-              [class.selected]="lastActive == 3"
+              [class.selected]="tabActive == 3"
               (click)="showTagsCloud(3)"
               href="#"
               role="tab"
@@ -102,7 +102,7 @@
               class="nav-link reponav-item UnderlineNav-item"
               data-toggle="tab"
               href="#"
-              [class.selected]="lastActive == 4"
+              [class.selected]="tabActive == 4"
               (click)="showVotesCloud(4)"
               role="tab"
               aria-controls="profile"
@@ -161,7 +161,7 @@
   </div>
 </div>
 <div class="container-lg px-3 new-discussion-timeline">
-  <div *ngIf="lastActive < 3" class="repository-content gist-content">
+  <div *ngIf="tabActive < 3" class="repository-content gist-content">
     <div class="gist-snippet" *ngFor="let gist of snippets; index as id">
       <div class="gist-snippet-meta d-flex flex-lg-row flex-column width-full">
         <div class="d-inline-block col-lg-3 px-0">
@@ -338,7 +338,7 @@
     </div>
   </div>
 
-  <div *ngIf="lastActive > 2" class="repository-content gist-content">
+  <div *ngIf="tabActive > 2" class="repository-content gist-content">
     <angular-tag-cloud
       [data]="series"
       [width]="options.width"
