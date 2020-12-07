@@ -126,4 +126,12 @@ export class HomeComponent {
     // this.snippets.splice(id, 1);
     // this.allCount = this.snippets.length;
   }
+
+  showClickedTag(clicked: CloudData) {
+    this.snippets = this.snippets.filter((snippet) =>
+      snippet.tags.includes(clicked.text)
+    );
+
+    this.lastActive = 1;
+  }
 }
