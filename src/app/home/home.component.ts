@@ -14,6 +14,7 @@ import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
 export class HomeComponent {
   user: authUser;
   snippets: any = [];
+  mainList: any = [];
   tabActive = 1;
   filter: CloudData;
   allCount;
@@ -39,7 +40,8 @@ export class HomeComponent {
     this.user = this.accountService.userValue;
     dataService.snippetData.subscribe(
       function (data) {
-        this.snippets = data;
+        this.snippets = [...data];
+        this.mainList = [...data];
         this.allCount = this.snippets.length;
       }.bind(this)
     );
@@ -73,11 +75,11 @@ export class HomeComponent {
       .length;
   }
 
-  filterByUser(tab) {
-    this.snippets = this.snippets.filter(
+  filterByUser() {
+    this.mainList = this.snippets.filter(
       (snippet) => snippet.createdBy == this.user._id
     );
-    this.tabActive = tab;
+    this.tabActive = 2;
   }
 
   showAll() {
@@ -123,14 +125,16 @@ export class HomeComponent {
   }
 
   async deleteSnippet(id) {
-    this.dataService.deleteSnippet(this.snippets[id]._id);
+    if (confirm('You are about to delete this snippet. \n Are you sure?'))
+      this.dataService.deleteSnippet(this.snippets[id]._id);
+    this.tabActive = 1;
 
     // this.snippets.splice(id, 1);
     // this.allCount = this.snippets.length;
   }
 
   showClickedTag(item: CloudData) {
-    this.snippets = this.snippets.filter((snippet) =>
+    this.mainList = this.snippets.filter((snippet) =>
       snippet.tags.includes(item.text)
     );
     this.filter = item;
