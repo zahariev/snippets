@@ -42,6 +42,14 @@ export class HomeComponent {
       function (data) {
         this.snippets = [...data];
         this.mainList = [...data];
+
+        if (this.filter) {
+          this.mainList = [
+            ...this.snippets.filter((snippet) =>
+              snippet.tags.includes(this.filter.text)
+            ),
+          ];
+        }
         this.allCount = this.snippets.length;
       }.bind(this)
     );
@@ -129,6 +137,7 @@ export class HomeComponent {
           snippet.tags.includes(this.filter.text)
         );
       }
+      this.calculateStats();
     });
   }
 
