@@ -132,27 +132,6 @@
         class="d-md-flex d-none flex-items-center flex-md-order-2 flex-order-1 file-navigation-options"
         data-multiple=""
       >
-        <!-- <div class="d-lg-table d-none">
-          <div class="file-navigation-option v-align-middle">
-            <div class="d-md-flex d-none">
-              <div class="input-group">
-                <div class="input-group-button">
-                  <details class="details-reset details-overlay select-menu">
-                    <summary
-                      class="btn btn-sm select-menu-button"
-                      data-ga-click="Repository, clone Embed, location:repo overview"
-                      aria-haspopup="menu"
-                      role="button"
-                    >
-                      <span data-menu-button="">Embed</span>
-                    </summary>
-                  </details>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-
         <div class="ml-2 file-navigation-option"></div>
 
         <div class="ml-2"></div>
@@ -196,7 +175,7 @@
           class="col-lg-4 col-12 flex-order-2 f6 mt-lg-0 mt-3 mb-lg-0 mb-2 d-flex flex-row ml-md-auto d-none d-md-flex"
         >
           <li class="d-inline-block mr-lg-3 mr-1">
-            <a class="muted-link" (click)="voteToggle(id)">
+            <a class="muted-link" (click)="voteToggle(gist._id)">
               <svg
                 *ngIf="!gist.likes.includes(user?._id)"
                 class="octicon octicon-star"

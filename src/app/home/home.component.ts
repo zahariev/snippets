@@ -106,20 +106,28 @@ export class HomeComponent {
     this.series = newSeries;
   }
 
-  voteToggle(id) {
+  voteToggle(_id) {
     if (!this.user) return;
-    this.dataService.vote(this.snippets[id]._id).subscribe((data) => {
+    const snippet = this.snippets.filter((snippet) => snippet._id == _id)[0];
+
+    this.dataService.vote(snippet._id).subscribe((data) => {
       if (!data.ok) return;
-      let idx = this.snippets[id].likes.indexOf(this.user._id);
+      let idx = snippet.likes.indexOf(this.user._id);
 
       if (idx > -1) {
-        this.snippets[id].likes.splice(idx, 1);
-        this.snippets[id].countLikes -= 1;
+        snippet.likes.splice(idx, 1);
+        snippet.countLikes -= 1;
         this.countLikes -= 1;
       } else {
-        this.snippets[id].likes.push(this.user._id);
-        this.snippets[id].countLikes += 1;
+        snippet.likes.push(this.user._id);
+        snippet.countLikes += 1;
         this.countLikes += 1;
+      }
+
+      if (this.filter) {
+        this.mainList = this.snippets.filter((snippet) =>
+          snippet.tags.includes(this.filter.text)
+        );
       }
     });
   }
